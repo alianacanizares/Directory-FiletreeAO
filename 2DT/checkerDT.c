@@ -72,6 +72,30 @@ static boolean CheckerDT_treeCheck(Node_T oNNode) {
             return FALSE;
          }
 
+         /* Check if node already exists */
+         if (ulIndex < (Node_getNumChildren(oNNode) - 1)) {
+         
+            Node_T nextChild = NULL;
+            int jStatus = Node_getChild(oNNode, ulIndex + 1, &nextChild);
+            assert(nextChild != NULL);
+
+            Path_T currentPath = Node_getPath(oNChild);
+            Path_T nextPath = Node_getPath(nextChild);
+            assert(currentPath != NULL);
+            assert(nextPath != NULL);
+
+
+            if(Path_comparePath(currentPath, nextPath) == 0) {
+               fprintf(stderr, "Multiple children have the same path\n");
+               return FALSE;
+            }
+
+            if(Path_comparePath(currentPath, nextPath) > 0) {
+               fprintf(stderr, "Not in lexigraphical order\n");
+               return FALSE;
+            }
+         }
+
          /* if recurring down one subtree results in a failed check
             farther down, passes the failure back up immediately */
          if(!CheckerDT_treeCheck(oNChild))
@@ -96,3 +120,4 @@ boolean CheckerDT_isValid(boolean bIsInitialized, Node_T oNRoot,
    /* Now checks invariants recursively at each node from the root. */
    return CheckerDT_treeCheck(oNRoot);
 }
+
