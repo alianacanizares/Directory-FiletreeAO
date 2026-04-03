@@ -110,7 +110,6 @@ express your disagreement after each warning. If there are no
 warnings, then write "None."
 
 
-
 ------------------------------------------------------------------------
 What warnings does critTer generate on checkerDT.c, and what are your
 disagreements with them? Copy the critTer warnings here, and express
@@ -118,6 +117,22 @@ your disagreement after each warning. If there are no warnings, then
 write "None."
 
 
+Checking checkerDT.c
+Cetus Parsing Error: Exception Type: antlr.NoViableAltException
+Source: checkerDT.c Line:185 Column: 20 token name:ID
+line 185:20: unexpected token: currentPath
+        at cetus.base.grammars.NewCParser.postfixExpr(NewCParser.java:6323)
+        at cetus.base.grammars.NewCParser.unaryExpr(NewCParser.java:6752)
+        at cetus.base.grammars.NewCParser.castExpr(NewCParser.java:6191)
+        at cetus.base.grammars.NewCParser.multExpr(NewCParser.java:6053)
+        at cetus.base.grammars.NewCParser.additiveExpr(NewCParser.java:5992)
+        at cetus.base.grammars.NewCParser.shiftExpr(NewCParser.java:5931)
+        at cetus.base.grammars.NewCParser.relationalExpr(NewCParser.java:5854)
+        at cetus.base.grammars.NewCParser.equalityExpr(NewCParser.java:5793)
+        at cetus.base.grammars.NewCParser.bitAndExpr(NewCParser.java:5755)
+        at cetus.base.grammars.NewCParser.exclusiveOrExpr(NewCParser.java:5714)
+        at cetus.base.grammars.NewCParser.inclusiveOrExpr(NewCP
+        idk
 
 ------------------------------------------------------------------------
 What warnings does splint generate on your Part 3 code, and what are
@@ -145,21 +160,30 @@ the error manifests itself or is "noticed" by the client.
 
       Executable         Function with the underlying error
 ===============================================================
-         ./bdtBad1        
+         ./bdtBad1      Function BDT_insert does not return INITIALIZATION_ERROR.
+                        This means the validation may be missing or incorrectly
+                        implemented.  
 ---------------------------------------------------------------
-         ./bdtBad2        
+         ./bdtBad2      Function BDT_freeSubTree is called in remove 
+                        which has the error because the function 
+                        checks if its children 1 or 2 that is being removed
+                        here you're also meant to reassign to ensure that 
+                        that child two is now child one.
+
 ---------------------------------------------------------------
-         ./bdtBad3        
+         ./bdtBad3      BDT_addChild contains lines that reassign incorrectly
 ---------------------------------------------------------------
-         ./bdtBad4        
+         ./bdtBad4      BDT_strlenAccumulate does not allocate enough space
 ---------------------------------------------------------------
-         ./bdtBad5        
+         ./bdtBad5      BDT_findNode misses a free
 ===============================================================
 
 ------------------------------------------------------------------------
 What are your critiques of the given DT implementations, as
 specified in Step 2.5?
 
-
+Should we include the h critiques?
+Parameter order (Parent, Path vs Path, Parent)
+Single character names for variables
 
 ------------------------------------------------------------------------
