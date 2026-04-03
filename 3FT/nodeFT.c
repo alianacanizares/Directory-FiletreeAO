@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------*/
-/* nodeDT.c                                                           */
+/* nodeFT.c                                                           */
 /* Author: Aliana & David                                             */
 /*--------------------------------------------------------------------*/
 
@@ -7,8 +7,8 @@
 #include <assert.h>
 #include <string.h>
 #include "dynarray.h"
-#include "nodeDT.h"
-#include "checkerDT.h"
+#include "nodeFT.h"
+#include "checkerFT.h"
 
 /* A node in a DT */
 struct node {
@@ -78,7 +78,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult) {
    int iStatus;
 
    assert(oPPath != NULL);
-   assert(oNParent == NULL || CheckerDT_Node_isValid(oNParent));
+   assert(oNParent == NULL || checkerFT_Node_isValid(oNParent));
 
    /* allocate space for a new node */
    psNew = malloc(sizeof(struct node));
@@ -162,8 +162,8 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult) {
 
    *poNResult = psNew;
 
-   assert(oNParent == NULL || CheckerDT_Node_isValid(oNParent));
-   assert(CheckerDT_Node_isValid(*poNResult));
+   assert(oNParent == NULL || checkerFT_Node_isValid(oNParent));
+   assert(checkerFT_Node_isValid(*poNResult));
 
    return SUCCESS;
 }
@@ -173,7 +173,7 @@ size_t Node_free(Node_T oNNode) {
    size_t ulCount = 0;
 
    assert(oNNode != NULL);
-   assert(CheckerDT_Node_isValid(oNNode));
+   assert(checkerFT_Node_isValid(oNNode));
 
    /* remove from parent's list */
    if(oNNode->oNParent != NULL) {
@@ -253,6 +253,32 @@ int Node_compare(Node_T oNFirst, Node_T oNSecond) {
    assert(oNSecond != NULL);
 
    return Path_comparePath(oNFirst->oPPath, oNSecond->oPPath);
+}
+
+boolean Node_isFile(Node_T oNNode) {
+   assert(oNNode != NULL);
+
+   return oNNode->isFile;
+}
+
+void *Node_setContents(Node_T oNNode, void *pvContents, size_t ulLength) {
+   assert(oNNode != NULL);
+
+   oNNode->pvContents = pvContents;
+   oNNode->ulLength = ulLength;
+   oNNode->isFile = TRUE;
+}
+
+void *Node_accessContents(Node_T oNNode) {
+   assert(oNNode != NULL);
+
+   return oNNode->pvContents;
+}
+
+void *Node_accessLength(Node_T oNNode) {
+   assert(oNNode != NULL);
+
+   return oNNode->ulLength;
 }
 
 char *Node_toString(Node_T oNNode) {
