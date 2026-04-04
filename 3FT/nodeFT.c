@@ -256,7 +256,7 @@ int Node_compare(Node_T oNFirst, Node_T oNSecond) {
 }
 
 boolean Node_isFile(Node_T oNNode) {
-   assert(oNNode != NULL);
+   assert(oNNode != NULL); 
 
    return oNNode->isFile;
 }

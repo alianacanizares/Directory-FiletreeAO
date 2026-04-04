@@ -14,7 +14,7 @@
    in a valid state, or FALSE otherwise. Prints explanation
    to stderr in the latter case.
 */
-boolean CheckerFT_Node_isValid(Node_T oNNode);
+boolean checkerFT_Node_isValid(Node_T oNNode);
 
 /*
    Returns TRUE if the hierarchy is in a valid state or FALSE
@@ -25,7 +25,7 @@ boolean CheckerFT_Node_isValid(Node_T oNNode);
    a size_t ulCount representing the total number of directories in
    the hierarchy.
 */
-boolean CheckerFT_isValid(boolean bIsInitialized,
+boolean checkerFT_isValid(boolean bIsInitialized,
                           Node_T oNRoot,
                           size_t ulCount);
 

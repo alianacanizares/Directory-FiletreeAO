@@ -75,6 +75,26 @@ Node_T Node_getParent(Node_T oNNode);
 */
 int Node_compare(Node_T oNFirst, Node_T oNSecond);
 
+/* 
+  Returns true if is file 
+*/
+boolean Node_isFile(Node_T oNNode);
+
+/*
+  Set contents
+*/
+void *Node_setContents(Node_T oNNode, void *pvContents, size_t ulLength);
+
+/*
+  Access contents
+*/
+void *Node_accessContents(Node_T oNNode);
+
+/*
+  Gets length
+ */
+void *Node_accessLength(Node_T oNNode);
+
 /*
   Returns a string representation for oNNode, or NULL if
   there is an allocation error.

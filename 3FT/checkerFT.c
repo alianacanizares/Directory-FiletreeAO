@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------------*/
-/* CheckerFT.c                                                        */
+/* checkerFT.c                                                        */
 /* Author:                                                            */
 /*--------------------------------------------------------------------*/
 
@@ -12,8 +12,8 @@
 
 
 
-/* see CheckerFT.h for specification */
-boolean CheckerFT_Node_isValid(Node_T oNNode) {
+/* see checkerFT.h for specification */
+boolean checkerFT_Node_isValid(Node_T oNNode) {
    Node_T oNParent;
    Path_T oPNPath;
    Path_T oPPPath;
@@ -54,7 +54,7 @@ boolean CheckerFT_Node_isValid(Node_T oNNode) {
    parameter list to facilitate constructing your checks.
    If you do, you should update this function comment.
 */
-static boolean CheckerFT_treeCheck(Node_T oNNode, size_t *nodeCount) {
+static boolean checkerFT_treeCheck(Node_T oNNode, size_t *nodeCount) {
    size_t ulIndex;
 
    if(oNNode!= NULL) {
@@ -62,7 +62,7 @@ static boolean CheckerFT_treeCheck(Node_T oNNode, size_t *nodeCount) {
 
       /* Sample check on each node: node must be valid */
       /* If not, pass that failure back up immediately */
-      if(!CheckerFT_Node_isValid(oNNode))
+      if(!checkerFT_Node_isValid(oNNode))
          return FALSE;
 
       /* Recur on every child of oNNode */
@@ -102,15 +102,15 @@ static boolean CheckerFT_treeCheck(Node_T oNNode, size_t *nodeCount) {
 
          /* if recurring down one subtree results in a failed check
             farther down, passes the failure back up immediately */
-         if(!CheckerFT_treeCheck(oNChild, nodeCount))
+         if(!checkerFT_treeCheck(oNChild, nodeCount))
             return FALSE;
       }
    }
    return TRUE;
 }
 
-/* see CheckerFT.h for specification */
-boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
+/* see checkerFT.h for specification */
+boolean checkerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
                           size_t ulCount) {
 
 
@@ -127,7 +127,7 @@ boolean CheckerFT_isValid(boolean bIsInitialized, Node_T oNRoot,
    
    /* Now checks invariants recursively at each node from the root, and counts
    the actual amount of nodes in the tree */
-   if(!CheckerFT_treeCheck(oNRoot, &nodeCount))
+   if(!checkerFT_treeCheck(oNRoot, &nodeCount))
       return FALSE;
 
    /* Checks the actual number of nodes against the expected number and returns

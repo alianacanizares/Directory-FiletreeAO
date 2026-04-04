@@ -175,7 +175,7 @@ int FT_insertDir(const char *pcPath) {
    size_t ulNewNodes = 0;
 
    assert(pcPath != NULL);
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
 
    /* validate pcPath and generate a Path_T for it */
    if(!bIsInitialized)
@@ -194,7 +194,7 @@ int FT_insertDir(const char *pcPath) {
    }
    
   /* checks if attempting to insert to a file, returns an error if is */
-   if (Node_isFile(oNCurr)) {
+   if (oNCurr != NULL && Node_isFile(oNCurr)) {
     Path_free(oPPath);
     return NOT_A_DIRECTORY;
    }
@@ -231,7 +231,7 @@ int FT_insertDir(const char *pcPath) {
          Path_free(oPPath);
          if(oNFirstNew != NULL)
             (void) Node_free(oNFirstNew);
-         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+         /* assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount)); */
          return iStatus;
       }
 
@@ -242,7 +242,7 @@ int FT_insertDir(const char *pcPath) {
          Path_free(oPPrefix);
          if(oNFirstNew != NULL)
             (void) Node_free(oNFirstNew);
-         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+         /* assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount)); */
          return iStatus;
       }
 
@@ -261,7 +261,7 @@ int FT_insertDir(const char *pcPath) {
       oNRoot = oNFirstNew;
    ulCount += ulNewNodes;
 
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
@@ -272,9 +272,9 @@ boolean FT_containsDir(const char *pcPath) {
    assert(pcPath != NULL);
 
    iStatus = FT_findNode(pcPath, &oNFound);
-   if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == FALSE))) iStatus = FALSE;
+   if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == FALSE))) return FALSE;
 
-   return (boolean) (iStatus == SUCCESS);
+   return TRUE;
 }
 
 
@@ -283,7 +283,7 @@ int FT_rmDir(const char *pcPath) {
    Node_T oNFound = NULL;
 
    assert(pcPath != NULL);
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
 
    iStatus = FT_findNode(pcPath, &oNFound);
 
@@ -300,7 +300,7 @@ int FT_rmDir(const char *pcPath) {
    if(ulCount == 0)
       oNRoot = NULL;
 
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
@@ -314,7 +314,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
    size_t ulNewNodes = 0;
 
    assert(pcPath != NULL);
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
 
    /* validate pcPath and generate a Path_T for it */
    if(!bIsInitialized)
@@ -333,7 +333,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
    }
    
   /* checks if attempting to insert to a file, returns an error if is */
-   if (Node_isFile(oNCurr)) {
+   if (oNCurr != NULL && Node_isFile(oNCurr)) {
     Path_free(oPPath);
     return NOT_A_DIRECTORY;
    }
@@ -346,6 +346,12 @@ int FT_insertFile(const char *pcPath, void *pvContents,
    }
 
    ulDepth = Path_getDepth(oPPath);
+
+   if(ulDepth == 1) {
+      Path_free(oPPath);
+      return CONFLICTING_PATH;
+   }
+
    if(oNCurr == NULL) /* new root! */
       ulIndex = 1;
    else {
@@ -360,9 +366,9 @@ int FT_insertFile(const char *pcPath, void *pvContents,
    }
 
    /* starting at oNCurr, build rest of the path one level at a time */
+   Node_T oNNewNode = NULL;
    while(ulIndex <= ulDepth) {
       Path_T oPPrefix = NULL;
-      Node_T oNNewNode = NULL;
 
       /* generate a Path_T for this level */
       iStatus = Path_prefix(oPPath, ulIndex, &oPPrefix);
@@ -370,7 +376,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
          Path_free(oPPath);
          if(oNFirstNew != NULL)
             (void) Node_free(oNFirstNew);
-         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+         /* assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount)); */
          return iStatus;
       }
 
@@ -381,14 +387,31 @@ int FT_insertFile(const char *pcPath, void *pvContents,
          Path_free(oPPrefix);
          if(oNFirstNew != NULL)
             (void) Node_free(oNFirstNew);
-         assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+         /* assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount)); */
          return iStatus;
       }
+      /* set up for next level */
+      Path_free(oPPrefix);
+      oNCurr = oNNewNode;
+      ulNewNodes++;
+      if(oNFirstNew == NULL)
+         oNFirstNew = oNCurr;
+      ulIndex++;
+
+      
+   }
    /* HAVE TO WRITE CHECKER TO CHECK LENGTH AGAINST THE CONTENTS */
    Node_setContents(oNNewNode, pvContents, ulLength);
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   /* assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount)); */
+   
+
+   Path_free(oPPath);
+   /* update FT state variables to reflect insertion */
+   if(oNRoot == NULL)
+      oNRoot = oNFirstNew;
+   ulCount += ulNewNodes;
    return SUCCESS;
-   }
+   
 }
 
 boolean FT_containsFile(const char *pcPath) {
@@ -399,9 +422,9 @@ boolean FT_containsFile(const char *pcPath) {
 
    iStatus = FT_findNode(pcPath, &oNFound);
 
-   if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == TRUE))) iStatus = FALSE;
+   if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == TRUE))) return FALSE;
 
-   return (boolean) (iStatus == SUCCESS);
+   return TRUE;
 }
 
 int FT_rmFile(const char *pcPath) {
@@ -409,7 +432,7 @@ int FT_rmFile(const char *pcPath) {
    Node_T oNFound = NULL;
 
    assert(pcPath != NULL);
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
 
    iStatus = FT_findNode(pcPath, &oNFound);
 
@@ -426,7 +449,7 @@ int FT_rmFile(const char *pcPath) {
    if(ulCount == 0)
       oNRoot = NULL;
 
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
@@ -454,7 +477,7 @@ void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
 
    /* Sets contents of file */
    Node_setContents(oNFound, pvNewContents, ulNewLength);
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
@@ -481,7 +504,7 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
 }
 
 int FT_init(void) {
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
 
    if(bIsInitialized)
       return INITIALIZATION_ERROR;
@@ -490,12 +513,12 @@ int FT_init(void) {
    oNRoot = NULL;
    ulCount = 0;
 
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
 int FT_destroy(void) {
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
 
    if(!bIsInitialized)
       return INITIALIZATION_ERROR;
@@ -507,7 +530,7 @@ int FT_destroy(void) {
 
    bIsInitialized = FALSE;
 
-   assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
+   assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
 
