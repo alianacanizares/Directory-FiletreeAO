@@ -12,7 +12,7 @@
 #include "dynarray.h"
 #include "path.h"
 #include "nodeFT.h"
-#include "CheckerFT.h"
+#include "checkerFT.h"
 #include "ft.h"
 
 
@@ -33,13 +33,13 @@ static size_t ulCount;
 /* --------------------------------------------------------------------
 
   The FT_traversePath and FT_findNode functions modularize the common
-  functionality of going as far as possible down an DT towards a path
+  functionality of going as far as possible down an FT towards a path
   and returning either the node of however far was reached or the
   node if the full path was reached, respectively.
 */
 
 /*
-  Traverses the DT starting at the root as far as possible towards
+  Traverses the FT starting at the root as far as possible towards
   absolute path oPPath. If able to traverse, returns an int SUCCESS
   status and sets *poNFurthest to the furthest node reached (which may
   be only a prefix of oPPath, or even NULL if the root is NULL).
@@ -111,10 +111,10 @@ static int FT_traversePath(Path_T oPPath, Node_T *poNFurthest) {
 }
 
 /*
-  Traverses the DT to find a node with absolute path pcPath. Returns a
+  Traverses the FT to find a node with absolute path pcPath. Returns a
   int SUCCESS status and sets *poNResult to be the node, if found.
   Otherwise, sets *poNResult to NULL and returns with status:
-  * INITIALIZATION_ERROR if the DT is not in an initialized state
+  * INITIALIZATION_ERROR if the FT is not in an initialized state
   * BAD_PATH if pcPath does not represent a well-formatted path
   * CONFLICTING_PATH if the root's path is not a prefix of pcPath
   * NO_SUCH_PATH if no node with pcPath exists in the hierarchy
@@ -256,7 +256,7 @@ int FT_insertDir(const char *pcPath) {
    }
 
    Path_free(oPPath);
-   /* update DT state variables to reflect insertion */
+   /* update FT state variables to reflect insertion */
    if(oNRoot == NULL)
       oNRoot = oNFirstNew;
    ulCount += ulNewNodes;
@@ -384,12 +384,11 @@ int FT_insertFile(const char *pcPath, void *pvContents,
          assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
          return iStatus;
       }
-   }
-
    /* HAVE TO WRITE CHECKER TO CHECK LENGTH AGAINST THE CONTENTS */
    Node_setContents(oNNewNode, pvContents, ulLength);
    assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
+   }
 }
 
 boolean FT_containsFile(const char *pcPath) {
@@ -454,7 +453,7 @@ void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
    if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == TRUE))) return NULL;
 
    /* Sets contents of file */
-   Node_setContents(oNFound, pvContents, ulLength);
+   Node_setContents(oNFound, pvNewContents, ulNewLength);
    assert(CheckerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return SUCCESS;
 }
@@ -469,7 +468,7 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
    if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == TRUE))) return NULL;
 
    if (iStatus == SUCCESS) {
-      if Node_isFile(oNFound == TRUE) {
+      if (Node_isFile(oNFound == TRUE)) {
          *pbIsFile = TRUE;
          *pulSize = Node_accessLength(oNFound);
       }
@@ -512,15 +511,12 @@ int FT_destroy(void) {
    return SUCCESS;
 }
 
-char *FT_toString(void) {
-   
-}
 
 
 /* --------------------------------------------------------------------
 
   The following auxiliary functions are used for generating the
-  string representation of the DT.
+  string representation of the FT.
 */
 
 /*
@@ -528,7 +524,7 @@ char *FT_toString(void) {
   inserting each payload to DynArray_T d beginning at index i.
   Returns the next unused index in d after the insertion(s).
 */
-static size_t DT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
+static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
    size_t c;
 
    assert(d != NULL);
@@ -541,7 +537,7 @@ static size_t DT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
          Node_T oNChild = NULL;
          iStatus = Node_getChild(n,c, &oNChild);
          assert(iStatus == SUCCESS);
-         i = DT_preOrderTraversal(oNChild, d, i);
+         i = FT_preOrderTraversal(oNChild, d, i);
       }
    }
    return i;
@@ -552,7 +548,7 @@ static size_t DT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
   to accumulate a string length, rather than returning the length of
   oNNode's path, and also always adds one addition byte to the sum.
 */
-static void DT_strlenAccumulate(Node_T oNNode, size_t *pulAcc) {
+static void FT_strlenAccumulate(Node_T oNNode, size_t *pulAcc) {
    assert(pulAcc != NULL);
 
    if(oNNode != NULL)
@@ -564,7 +560,7 @@ static void DT_strlenAccumulate(Node_T oNNode, size_t *pulAcc) {
   order, appending oNNode's path onto pcAcc, and also always adds one
   newline at the end of the concatenated string.
 */
-static void DT_strcatAccumulate(Node_T oNNode, char *pcAcc) {
+static void FT_strcatAccumulate(Node_T oNNode, char *pcAcc) {
    assert(pcAcc != NULL);
 
    if(oNNode != NULL) {
@@ -574,7 +570,7 @@ static void DT_strcatAccumulate(Node_T oNNode, char *pcAcc) {
 }
 /*--------------------------------------------------------------------*/
 
-char *DT_toString(void) {
+char *FT_toString(void) {
    DynArray_T nodes;
    size_t totalStrlen = 1;
    char *result = NULL;
@@ -583,9 +579,9 @@ char *DT_toString(void) {
       return NULL;
 
    nodes = DynArray_new(ulCount);
-   (void) DT_preOrderTraversal(oNRoot, nodes, 0);
+   (void) FT_preOrderTraversal(oNRoot, nodes, 0);
 
-   DynArray_map(nodes, (void (*)(void *, void*)) DT_strlenAccumulate,
+   DynArray_map(nodes, (void (*)(void *, void*)) FT_strlenAccumulate,
                 (void*) &totalStrlen);
 
    result = malloc(totalStrlen);
@@ -595,7 +591,7 @@ char *DT_toString(void) {
    }
    *result = '\0';
 
-   DynArray_map(nodes, (void (*)(void *, void*)) DT_strcatAccumulate,
+   DynArray_map(nodes, (void (*)(void *, void*)) FT_strcatAccumulate,
                 (void *) result);
 
    DynArray_free(nodes);

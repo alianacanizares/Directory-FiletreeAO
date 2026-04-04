@@ -10,7 +10,7 @@
 #include "nodeFT.h"
 #include "checkerFT.h"
 
-/* A node in a DT */
+/* A node in a FT */
 struct node {
    /* the object corresponding to the node's absolute path */
    Path_T oPPath;
