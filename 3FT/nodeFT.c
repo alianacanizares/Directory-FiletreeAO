@@ -76,6 +76,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult) {
    size_t ulParentDepth;
    size_t ulIndex;
    int iStatus;
+   
 
    assert(oPPath != NULL);
    assert(oNParent == NULL || checkerFT_Node_isValid(oNParent));
@@ -138,6 +139,7 @@ int Node_new(Path_T oPPath, Node_T oNParent, Node_T *poNResult) {
          return NO_SUCH_PATH;
       }
    }
+   psNew->isFile = FALSE;
    psNew->oNParent = oNParent;
 
    /* initialize the new node */

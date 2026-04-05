@@ -468,6 +468,7 @@ void *FT_getFileContents(const char *pcPath) {
 void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
                              size_t ulNewLength) {
    int iStatus;
+   void *oldContents;
    
    /* Find node from Path */
    Node_T oNFound = NULL;
@@ -475,10 +476,12 @@ void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
    iStatus = FT_findNode(pcPath, &oNFound);
    if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == TRUE))) return NULL;
 
+   oldContents = Node_accessContents(oNFound);
+
    /* Sets contents of file */
    Node_setContents(oNFound, pvNewContents, ulNewLength);
    assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
-   return SUCCESS;
+   return oldContents;
 }
 
 int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
@@ -488,10 +491,11 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
    Node_T oNFound = NULL;
    assert(pcPath != NULL);
    iStatus = FT_findNode(pcPath, &oNFound);
-   if (!((iStatus == SUCCESS) && (Node_isFile(oNFound) == TRUE))) return NULL;
+
+   if (iStatus != SUCCESS) return iStatus;
 
    if (iStatus == SUCCESS) {
-      if (Node_isFile(oNFound == TRUE)) {
+      if (Node_isFile(oNFound)) {
          *pbIsFile = TRUE;
          *pulSize = Node_accessLength(oNFound);
       }
