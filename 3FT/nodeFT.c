@@ -269,6 +269,8 @@ void *Node_setContents(Node_T oNNode, void *pvContents, size_t ulLength) {
    oNNode->pvContents = pvContents;
    oNNode->ulLength = ulLength;
    oNNode->isFile = TRUE;
+
+   return oNNode;
 }
 
 void *Node_accessContents(Node_T oNNode) {
@@ -277,7 +279,7 @@ void *Node_accessContents(Node_T oNNode) {
    return oNNode->pvContents;
 }
 
-void *Node_accessLength(Node_T oNNode) {
+size_t Node_accessLength(Node_T oNNode) {
    assert(oNNode != NULL);
 
    return oNNode->ulLength;

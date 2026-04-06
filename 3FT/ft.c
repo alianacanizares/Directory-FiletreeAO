@@ -262,6 +262,7 @@ int FT_insertDir(const char *pcPath) {
    ulCount += ulNewNodes;
 
    assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
+
    return SUCCESS;
 }
 
@@ -301,6 +302,7 @@ int FT_rmDir(const char *pcPath) {
       oNRoot = NULL;
 
    assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
+
    return SUCCESS;
 }
 
@@ -310,6 +312,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
    Path_T oPPath = NULL;
    Node_T oNFirstNew = NULL;
    Node_T oNCurr = NULL;
+   Node_T oNNewNode = NULL;
    size_t ulDepth, ulIndex;
    size_t ulNewNodes = 0;
 
@@ -366,7 +369,6 @@ int FT_insertFile(const char *pcPath, void *pvContents,
    }
 
    /* starting at oNCurr, build rest of the path one level at a time */
-   Node_T oNNewNode = NULL;
    while(ulIndex <= ulDepth) {
       Path_T oPPrefix = NULL;
 
@@ -401,7 +403,7 @@ int FT_insertFile(const char *pcPath, void *pvContents,
       
    }
    /* HAVE TO WRITE CHECKER TO CHECK LENGTH AGAINST THE CONTENTS */
-   Node_setContents(oNNewNode, pvContents, ulLength);
+   (void*)Node_setContents(oNNewNode, pvContents, ulLength);
    /* assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount)); */
    
 
@@ -479,7 +481,7 @@ void *FT_replaceFileContents(const char *pcPath, void *pvNewContents,
    oldContents = Node_accessContents(oNFound);
 
    /* Sets contents of file */
-   Node_setContents(oNFound, pvNewContents, ulNewLength);
+   (void*)Node_setContents(oNFound, pvNewContents, ulNewLength);
    assert(checkerFT_isValid(bIsInitialized, oNRoot, ulCount));
    return oldContents;
 }
@@ -489,6 +491,8 @@ int FT_stat(const char *pcPath, boolean *pbIsFile, size_t *pulSize) {
 
    /* Find node from Path */
    Node_T oNFound = NULL;
+   assert(pbIsFile != NULL);
+   assert(pulSize != NULL);
    assert(pcPath != NULL);
    iStatus = FT_findNode(pcPath, &oNFound);
 
@@ -559,12 +563,23 @@ static size_t FT_preOrderTraversal(Node_T n, DynArray_T d, size_t i) {
    if(n != NULL) {
       (void) DynArray_set(d, i, n);
       i++;
+      /* pass for file children */
+         for(c = 0; c < Node_getNumChildren(n); c++) {
+         int iStatus;
+         Node_T oNChild = NULL;
+         iStatus = Node_getChild(n,c, &oNChild);
+         assert(iStatus == SUCCESS);
+         if (Node_isFile(oNChild))
+            (void) DynArray_set(d, i++, oNChild);
+      }
+      /* pass for directory children */
       for(c = 0; c < Node_getNumChildren(n); c++) {
          int iStatus;
          Node_T oNChild = NULL;
          iStatus = Node_getChild(n,c, &oNChild);
          assert(iStatus == SUCCESS);
-         i = FT_preOrderTraversal(oNChild, d, i);
+         if (!Node_isFile(oNChild))
+            i = FT_preOrderTraversal(oNChild, d, i);
       }
    }
    return i;

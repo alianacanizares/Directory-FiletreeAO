@@ -76,24 +76,26 @@ Node_T Node_getParent(Node_T oNNode);
 int Node_compare(Node_T oNFirst, Node_T oNSecond);
 
 /* 
-  Returns true if is file 
+  Returns TRUE if oNNode is a file child and FALSE if oNNode
+  is a directory child.
 */
 boolean Node_isFile(Node_T oNNode);
 
 /*
-  Set contents
+  Set the contents of oNNode to pvContents with length, ulLength
+  in the creation of oNNode
 */
 void *Node_setContents(Node_T oNNode, void *pvContents, size_t ulLength);
 
 /*
-  Access contents
+  Accesses the contents of the node, oNNode
 */
 void *Node_accessContents(Node_T oNNode);
 
 /*
-  Gets length
- */
-void *Node_accessLength(Node_T oNNode);
+  Returns length of the contents of the node, oNNode
+*/
+size_t Node_accessLength(Node_T oNNode);
 
 /*
   Returns a string representation for oNNode, or NULL if

@@ -17,7 +17,7 @@ typedef struct DynArray *DynArray_T;
 
 /* Return a new DynArray_T object whose length is uLength, or
    NULL if insufficient memory is available. */
-
+   
 DynArray_T DynArray_new(size_t uLength);
 
 /*--------------------------------------------------------------------*/

@@ -3,12 +3,12 @@ Assignment 4 readme File
 ------------------------------------------------------------------------
 Student 1: What is your name?
 
-
+David Jacob Blankson-Hemans
 
 ------------------------------------------------------------------------
 Student 2: What is your name?
 
-
+Aliana Canizares
 
 ------------------------------------------------------------------------
 Student 1: What authorized sources of information did you use to
@@ -17,7 +17,10 @@ information given in the "Policies" web page (also available on armlab
 in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
-
+Course's lectures, precepts, website, textbooks and manuals (including the man pages from the armlab cluster). 
+Course's instructors in office hours and on Ed (Polly and Nicholas Office Hours)
+Large Language Model or other Generative AI for assistance with conceptual topics for the class and 
+for help with the assignments
 
 ------------------------------------------------------------------------
 Student 2: What authorized sources of information did you use to
@@ -26,6 +29,10 @@ information given in the "Policies" web page (also available on armlab
 in the file ~cos217/AuthorizedSourcesList ) to this section of the
 readme file, and edit it as appropriate.
 
+Course's lectures, precepts, website, textbooks and manuals (including the man pages from the armlab cluster). 
+Course's instructors in office hours and on Ed (Polly and Nicholas Office Hours)
+Large Language Model or other Generative AI for assistance with conceptual topics for the class and 
+for help with the assignments
 
 
 ------------------------------------------------------------------------
@@ -40,7 +47,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 2: What unauthorized sources of information did you use to
@@ -54,7 +61,7 @@ nature of the interaction, may additionally require the interaction
 being reported to the Committee on Discipline. Write "None" if you used
 no unauthorized sources of information.
 
-
+None
 
 ------------------------------------------------------------------------
 Student 1: In fulfillment of the requirement from section 2.4.3 of the
@@ -63,6 +70,8 @@ guide, enter your name in the space below the following affirmation:
 
 This paper represents my own work in accordance with University
 regulations.
+
+/s/David Jacob Blankson-Hemans
 
 
 
@@ -74,6 +83,7 @@ guide, enter your name in the space below the following affirmation:
 This paper represents my own work in accordance with University
 regulations.
 
+/s/Aliana Canizares
 
 
 ------------------------------------------------------------------------
@@ -82,26 +92,27 @@ Regulations in Princeton's Rights, Rules, Responsibilities guide,
 and the COS 217 Generative AI policy, disclose and describe how you
 used AI in completing this assignment:
 
-
+Used for conceptual understanding mostly on 3FT.
 
 ------------------------------------------------------------------------
 Student 1: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+The assignment was fair, yes it was helpful, was fun working on a
+partnered assignment.
 
 ------------------------------------------------------------------------
 Student 2: What is your assessment of the assignment? Was it helpful?
 Was it fun?
 
-
+It was helpful and fun. 
 
 ------------------------------------------------------------------------
 (optional) What information can you provide about your submission that
 will help your grader to grade it in the most favorable light? In
 particular, what bugs are in your submission?
 
-
+N/A
 
 ------------------------------------------------------------------------
 What warnings does splint generate for Part 2's checker, and what are
@@ -109,6 +120,50 @@ your disagreements with them? Copy the splint warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+path.h:24:5: Function Path_new declared but not defined
+A function or variable is declared, but not defined in any source code file.
+(Use -declundef to inhibit warning)
+path.h:33:5: Function Path_dup declared but not defined
+path.h:44:5: Function Path_prefix declared but not defined
+path.h:47:6: Function Path_free declared but not defined
+path.h:50:13: Function Path_getPathname declared but not defined
+path.h:56:8: Function Path_getStrLength declared but not defined
+path.h:63:5: Function Path_comparePath declared but not defined
+path.h:70:5: Function Path_compareString declared but not defined
+path.h:77:8: Function Path_getDepth declared but not defined
+path.h:86:8: Function Path_getSharedPrefixDepth declared but not defined
+path.h:94:13: Function Path_getComponent declared but not defined
+nodeDT.h:29:5: Function Node_new declared but not defined
+nodeDT.h:36:8: Function Node_free declared but not defined
+nodeDT.h:39:8: Function Node_getPath declared but not defined
+nodeDT.h:50:9: Function Node_hasChild declared but not defined
+nodeDT.h:54:8: Function Node_getNumChildren declared but not defined
+nodeDT.h:62:5: Function Node_getChild declared but not defined
+nodeDT.h:69:8: Function Node_getParent declared but not defined
+nodeDT.h:76:5: Function Node_compare declared but not defined
+nodeDT.h:85:7: Function Node_toString declared but not defined
+dynarray.h:21:12: Function DynArray_new declared but not defined
+dynarray.h:27:6: Function DynArray_free declared but not defined
+dynarray.h:33:8: Function DynArray_getLength declared but not defined
+dynarray.h:39:7: Function DynArray_get declared but not defined
+dynarray.h:46:7: Function DynArray_set declared but not defined
+dynarray.h:55:5: Function DynArray_add declared but not defined
+dynarray.h:63:5: Function DynArray_addAt declared but not defined
+dynarray.h:70:7: Function DynArray_removeAt declared but not defined
+dynarray.h:78:6: Function DynArray_toArray declared but not defined
+dynarray.h:87:26: Function DynArray_map declared but not defined
+dynarray.h:98:26: Function DynArray_sort declared but not defined
+dynarray.h:113:27: Function DynArray_search declared but not defined
+dynarray.h:129:28: Function DynArray_bsearch declared but not defined
+checkerDT.h:17:9: Function exported but not used outside checkerDT:
+                     CheckerDT_Node_isValid
+  A declaration is exported, but not used outside this module. Declaration can
+  use static qualifier. (Use -exportlocal to inhibit warning)
+   checkerDT.c:43:1: Definition of CheckerDT_Node_isValid
+  ^ Code was given & Header file errors need not be discussed at talked about
+  on EdDiscussion
+
+Finished checking --- 34 code warnings
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on checkerDT.c, and what are your
@@ -116,23 +171,19 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
+   checkerDT.c: line 72: low priority: 
+   A loop should consist of fewer than 35 lines;
+   this loop consists of 44 lines; consider refactoring
 
-Checking checkerDT.c
-Cetus Parsing Error: Exception Type: antlr.NoViableAltException
-Source: checkerDT.c Line:185 Column: 20 token name:ID
-line 185:20: unexpected token: currentPath
-        at cetus.base.grammars.NewCParser.postfixExpr(NewCParser.java:6323)
-        at cetus.base.grammars.NewCParser.unaryExpr(NewCParser.java:6752)
-        at cetus.base.grammars.NewCParser.castExpr(NewCParser.java:6191)
-        at cetus.base.grammars.NewCParser.multExpr(NewCParser.java:6053)
-        at cetus.base.grammars.NewCParser.additiveExpr(NewCParser.java:5992)
-        at cetus.base.grammars.NewCParser.shiftExpr(NewCParser.java:5931)
-        at cetus.base.grammars.NewCParser.relationalExpr(NewCParser.java:5854)
-        at cetus.base.grammars.NewCParser.equalityExpr(NewCParser.java:5793)
-        at cetus.base.grammars.NewCParser.bitAndExpr(NewCParser.java:5755)
-        at cetus.base.grammars.NewCParser.exclusiveOrExpr(NewCParser.java:5714)
-        at cetus.base.grammars.NewCParser.inclusiveOrExpr(NewCP
-        idk
+   checkerDT.c: line 89: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+
+   checkerDT.c: line 102: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+
+   checkerDT.c: line 107: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+   ^ Exceptions as discussed in EdDiscussion
 
 ------------------------------------------------------------------------
 What warnings does splint generate on your Part 3 code, and what are
@@ -141,6 +192,73 @@ express your disagreement after each warning. If there are no
 warnings, then write "None."
 
 
+path.h:24:5: Function Path_new declared but not defined
+  A function or variable is declared, but not defined in any source code file.
+  (Use -declundef to inhibit warning)
+path.h:33:5: Function Path_dup declared but not defined
+path.h:44:5: Function Path_prefix declared but not defined
+path.h:47:6: Function Path_free declared but not defined
+path.h:50:13: Function Path_getPathname declared but not defined
+path.h:56:8: Function Path_getStrLength declared but not defined
+path.h:63:5: Function Path_comparePath declared but not defined
+path.h:70:5: Function Path_compareString declared but not defined
+path.h:77:8: Function Path_getDepth declared but not defined
+path.h:86:8: Function Path_getSharedPrefixDepth declared but not defined
+path.h:94:13: Function Path_getComponent declared but not defined
+nodeFT.h:29:5: Function Node_new declared but not defined
+nodeFT.h:36:8: Function Node_free declared but not defined
+nodeFT.h:39:8: Function Node_getPath declared but not defined
+nodeFT.h:50:9: Function Node_hasChild declared but not defined
+nodeFT.h:54:8: Function Node_getNumChildren declared but not defined
+nodeFT.h:62:5: Function Node_getChild declared but not defined
+nodeFT.h:69:8: Function Node_getParent declared but not defined
+nodeFT.h:76:5: Function Node_compare declared but not defined
+nodeFT.h:82:9: Function Node_isFile declared but not defined
+nodeFT.h:88:7: Function Node_setContents declared but not defined
+nodeFT.h:93:7: Function Node_accessContents declared but not defined
+nodeFT.h:98:8: Function Node_accessLength declared but not defined
+nodeFT.h:107:7: Function Node_toString declared but not defined
+dynarray.h:21:12: Function DynArray_new declared but not defined
+dynarray.h:27:6: Function DynArray_free declared but not defined
+dynarray.h:33:8: Function DynArray_getLength declared but not defined
+dynarray.h:39:7: Function DynArray_get declared but not defined
+dynarray.h:46:7: Function DynArray_set declared but not defined
+dynarray.h:55:5: Function DynArray_add declared but not defined
+dynarray.h:63:5: Function DynArray_addAt declared but not defined
+dynarray.h:70:7: Function DynArray_removeAt declared but not defined
+dynarray.h:78:6: Function DynArray_toArray declared but not defined
+dynarray.h:87:26: Function DynArray_map declared but not defined
+dynarray.h:98:26: Function DynArray_sort declared but not defined
+dynarray.h:113:27: Function DynArray_search declared but not defined
+dynarray.h:129:28: Function DynArray_bsearch declared but not defined
+checkerFT.h:17:9: Function exported but not used outside checkerFT:
+  ^ This is fine because they are not meant to be defined in the header file.
+                     checkerFT_Node_isValid
+  A declaration is exported, but not used outside this module. Declaration can
+  use static qualifier. (Use -exportlocal to inhibit warning)
+   checkerFT.c:43:1: Definition of checkerFT_Node_isValid
+    ^This code was provided in the assignment.
+
+ft.c: (in function FT_stat)
+ft.c:500:10: Assignment of void * to size_t:
+                *pulSize = Node_accessLength(oNFound)
+  Types are incompatible. (Use -type to inhibit warning)
+      We want to assign the value to a pointer not a size_t variable, so this is necessary.
+
+ft.c:94:42: Variable ulChildID used before definition
+  An rvalue is used that may not be initialized to a value on some execution
+  path. (Use -usedef to inhibit warning)
+
+  This value can not be set because all possible values would be meaningful.
+
+ft.c: (in function FT_traversePath)
+ft.c:94:42: Variable ulChildID used before definition
+  An rvalue is used that may not be initialized to a value on some execution
+  path. (Use -usedef to inhibit warning)
+  ^ Provided code
+
+Header errors were discussed above.
+
 
 ------------------------------------------------------------------------
 What warnings does critTer generate on your Part 3 code, and what are
@@ -148,7 +266,39 @@ your disagreements with them? Copy the critTer warnings here, and
 express your disagreement after each warning. If there are no
 warnings, then write "None."
 
+   ft.c: line 642: low priority: 
+   A file should contain no more than 15 functions;
+   this file contains 17 functions
+    N/A
 
+   ft.c: line 310: medium priority:
+   Do you want to validate 'pvContents' through an assert?
+    pvContents could be NULL therefore not needing an assert.
+
+   ft.c: line 471: medium priority:
+   Do you want to validate 'pvNewContents' through an assert?
+    pvNewContents could be NULL therefore not needing an assert.
+
+   ft.c: line 641: low priority: 
+   A source code file should contain fewer than 500 lines;
+   this file contains 642 lines
+    N/A
+
+
+
+   checkerFT.c: line 71: low priority: 
+   A loop should consist of fewer than 35 lines;
+   this loop consists of 39 lines; consider refactoring
+
+   checkerFT.c: line 88: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+
+   checkerFT.c: line 96: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+
+   checkerFT.c: line 101: low priority: 
+   This area is deeply nested at level 4, consider refactoring
+   These do not need to be discussed as stated on EdDiscussion.
 
 ------------------------------------------------------------------------
 For each of the five faulty BDT implementations required by Step

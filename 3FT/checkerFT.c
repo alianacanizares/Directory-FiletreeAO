@@ -56,6 +56,7 @@ boolean checkerFT_Node_isValid(Node_T oNNode) {
 */
 static boolean checkerFT_treeCheck(Node_T oNNode, size_t *nodeCount) {
    size_t ulIndex;
+   assert(nodeCount != NULL);
 
    if(oNNode!= NULL) {
       (*nodeCount)++;
@@ -78,16 +79,19 @@ static boolean checkerFT_treeCheck(Node_T oNNode, size_t *nodeCount) {
 
          /* Check if node already exists */
          if (ulIndex < (Node_getNumChildren(oNNode) - 1)) {
+            Path_T currentPath;
+            Path_T nextPath;
          
             Node_T nextChild = NULL;
-            int jStatus = Node_getChild(oNNode, ulIndex + 1, &nextChild);
-            assert(nextChild != NULL);
+            int iStatus = Node_getChild(oNNode, ulIndex + 1, &nextChild);
 
-            Path_T currentPath = Node_getPath(oNChild);
-            Path_T nextPath = Node_getPath(nextChild);
-            assert(currentPath != NULL);
-            assert(nextPath != NULL);
+            if(iStatus != SUCCESS) {
+               fprintf(stderr, "getNumChildren claims more children than getChild returns\n");
+               return FALSE;
+            }
 
+            currentPath = Node_getPath(oNChild);
+            nextPath = Node_getPath(nextChild);
 
             if(Path_comparePath(currentPath, nextPath) == 0) {
                fprintf(stderr, "Multiple children have the same path\n");
